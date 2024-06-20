@@ -33,7 +33,8 @@ public class RecipesService {
     }
 
     public RecipeDto getRecipeById(long recipeId) {
-        RecipeEntity recipe = recipesRepository.findById(recipeId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        RecipeEntity recipe = recipesRepository.findById(recipeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Sorry, the recipe with id %d is not in the repository.", recipeId)));
         return RecipeMapper.fromEntityToDto(recipe);
     }
 
