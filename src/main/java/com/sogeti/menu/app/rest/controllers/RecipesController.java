@@ -40,17 +40,17 @@ public class RecipesController {
         return new ResponseEntity<>(recipeDtoList.stream().map(RecipeMapper::fromDtoToResponse).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{recipeId}")
-    ResponseEntity<Void> deleteRecipeById(@PathVariable Long recipeId) {
-        return recipeService.deleteRecipeById(recipeId);
-    }
-
     @GetMapping
     ResponseEntity<List<RecipeResponse>> getAllRecipes() {
         return new ResponseEntity<>(recipeService.getAllRecipes()
                 .stream()
                 .map(RecipeMapper::fromDtoToResponse)
                 .collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{recipeId}")
+    ResponseEntity<Void> deleteRecipeById(@PathVariable Long recipeId) {
+        return recipeService.deleteRecipeById(recipeId);
     }
 
     @PutMapping("/edit/{recipeId}")
