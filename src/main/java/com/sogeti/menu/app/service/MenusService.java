@@ -30,4 +30,11 @@ public class MenusService {
 
         return MenuMapper.fromEntityToDto(menusRepository.save(new MenuEntity(recipeList)));
     }
+
+    public List<MenuDto> getAllMenus() {
+        return menusRepository.findAll()
+                .stream()
+                .map(MenuMapper::fromEntityToDto)
+                .collect(Collectors.toList());
+    }
 }

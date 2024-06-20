@@ -1,10 +1,7 @@
 package com.sogeti.menu.app.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.print.attribute.standard.DateTimeAtCompleted;
 import java.time.LocalDateTime;
@@ -17,6 +14,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class MenuEntity {
 
