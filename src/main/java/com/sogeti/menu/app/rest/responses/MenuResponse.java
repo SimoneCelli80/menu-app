@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.util.Date;
 import java.util.List;
 
 @Builder
 @AllArgsConstructor
 @Getter
 @Setter
-public class RecipeResponse {
+public class MenuResponse {
 
     private long id;
-    private String recipeName;
-    private List<IngredientResponse> ingredientList;
+    private Date menuDate;
+    private List<RecipeResponse> recipeResponseList;
 
 }

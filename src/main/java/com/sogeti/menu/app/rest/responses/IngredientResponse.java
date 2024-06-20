@@ -1,20 +1,19 @@
 package com.sogeti.menu.app.rest.responses;
 
+import com.sogeti.menu.app.persistence.enums.UnitsOfMeasureEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Builder
 @AllArgsConstructor
 @Getter
 @Setter
-public class RecipeResponse {
+public class IngredientResponse {
 
-    private long id;
-    private String recipeName;
-    private List<IngredientResponse> ingredientList;
+    private String name;
+    private double quantity;
+    private UnitsOfMeasureEnum unit;
 
 }

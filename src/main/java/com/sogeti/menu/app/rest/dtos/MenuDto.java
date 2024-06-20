@@ -1,20 +1,21 @@
 package com.sogeti.menu.app.rest.dtos;
 
-import com.sogeti.menu.app.persistence.entities.IngredientEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
+
 @Builder
 @AllArgsConstructor
 @Getter
 @Setter
-public class RecipeDto {
+public class MenuDto {
 
     private long id;
-    private String recipeName;
-    private List<IngredientDto> ingredientList;
+    private Date menuDate;
+    private List<RecipeDto> recipeDtoList;
 
 }
