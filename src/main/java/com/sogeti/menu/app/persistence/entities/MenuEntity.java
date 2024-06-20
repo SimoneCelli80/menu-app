@@ -21,7 +21,7 @@ public class MenuEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     long id;
     Date menuDate;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Menu_Recipe",
             joinColumns = @JoinColumn(name = "menu_id"),
