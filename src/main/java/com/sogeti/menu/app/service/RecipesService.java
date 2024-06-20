@@ -26,6 +26,7 @@ public class RecipesService {
     }
     public RecipeDto createRecipe(RecipeDto recipeDto) {
         if (recipesRepository.existsByRecipeName(recipeDto.getRecipeName())) {
+            System.out.println("here");
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This recipe already exists, please choose a different recipe or change its name.");
         }
         RecipeEntity recipeEntity = recipesRepository.save(RecipeMapper.fromDtoToEntity(recipeDto));
