@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +23,7 @@ public class MenuEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     long id;
-    Date menuDate;
+    String menuDate;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Menu_Recipe",
@@ -30,7 +33,7 @@ public class MenuEntity {
     List<RecipeEntity> recipeList;
 
     public MenuEntity(List<RecipeEntity> recipeList) {
-        this.menuDate = new Date();
+        this.menuDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy 'at' HH:mm"));
         this.recipeList = recipeList != null ? recipeList : new ArrayList<>();
     }
 }

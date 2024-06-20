@@ -15,7 +15,7 @@ import java.util.List;
 public class MenuDto {
 
     private long id;
-    private Date menuDate;
+    private String menuDate;
     private List<RecipeDto> recipeDtoList;
 
 }
