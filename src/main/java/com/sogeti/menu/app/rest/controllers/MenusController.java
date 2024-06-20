@@ -29,6 +29,12 @@ public class MenusController {
         return new ResponseEntity<>(MenuMapper.fromDtoToResponse(menuDto), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{menuId}")
+    ResponseEntity<MenuResponse> getMenuById(@PathVariable long menuId) {
+        MenuDto menuDto = menuService.getMenuById(menuId);
+        return new ResponseEntity<>(MenuMapper.fromDtoToResponse(menuDto), HttpStatus.OK);
+    }
+
     @GetMapping
     ResponseEntity<List<MenuResponse>> getAllMenus() {
         List<MenuDto> menuDtoList = menuService.getAllMenus();

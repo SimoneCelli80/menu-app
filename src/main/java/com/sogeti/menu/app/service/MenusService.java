@@ -7,7 +7,11 @@ import com.sogeti.menu.app.persistence.entities.RecipeEntity;
 import com.sogeti.menu.app.persistence.repositories.MenusRepository;
 import com.sogeti.menu.app.rest.dtos.MenuDto;
 import com.sogeti.menu.app.rest.dtos.RecipeDto;
+import org.apache.logging.log4j.message.StringFormattedMessage;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,5 +40,11 @@ public class MenusService {
                 .stream()
                 .map(MenuMapper::fromEntityToDto)
                 .collect(Collectors.toList());
+    }
+
+    public MenuDto getMenuById(long menuId) {
+        MenuEntity menuEntity = menusRepository.findById(menuId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Sorry, the menu with id %d is not in the repository", menuId)));
+        return MenuMapper.fromEntityToDto(menuEntity);
     }
 }
