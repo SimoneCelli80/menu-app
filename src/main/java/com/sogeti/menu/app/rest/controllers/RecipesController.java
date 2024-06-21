@@ -49,7 +49,7 @@ public class RecipesController {
     }
 
     @DeleteMapping("/delete/{recipeId}")
-    ResponseEntity<Void> deleteRecipeById(@PathVariable Long recipeId) {
+    ResponseEntity<Void> deleteRecipeById(@PathVariable long recipeId) {
         return recipeService.deleteRecipeById(recipeId);
     }
 

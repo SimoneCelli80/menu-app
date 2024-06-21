@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -18,8 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +47,7 @@ public class RecipesServiceTest {
     }
 
     @Test
-    void givenARecipeWithAUsedName_whenCreatingANewRecipe_thenA409ShouldBeThrown() {
+    void givenARecipeWithAUsedName_whenCreatingARecipe_thenA409ShouldBeThrown() {
         RecipeDto recipeDto = RecipeFactory.aRecipeDto().recipeName("Name already existing").build();
         ResponseStatusException expectedException = new ResponseStatusException(HttpStatus.CONFLICT, "This recipe already exists, please choose a different recipe or change its name.");
 
@@ -123,7 +123,7 @@ public class RecipesServiceTest {
     }
 
     @Test
-    void givenAListWithAtLeastANonexistentId_whenGettingMoreThanOneRecipe_thenA400ShouldBeThrown() {
+    void givenAListWithAtLeastANonexistentId_whenGettingMoreThanOneRecipe_thenA404ShouldBeThrown() {
         List<Long> idList = new ArrayList<>();
         idList.add(1L);
         idList.add(1000L);
@@ -140,5 +140,104 @@ public class RecipesServiceTest {
         verify(recipesRepository).findAllById(idList);
         verifyNoMoreInteractions(recipesRepository);
     }
+
+    @Test
+    void givenANotEmptyRepository_whenGettingAllTheRecipes_thenAListWithAllTheRecipesShouldBeReturned() {
+        RecipeDto recipeDto1 = RecipeFactory.aRecipeDto().build();
+        RecipeDto recipeDto2 = RecipeFactory.aRecipeDto().id(2L).build();
+        List<RecipeDto> recipeDtoList = new ArrayList<>();
+        recipeDtoList.add(recipeDto1);
+        recipeDtoList.add(recipeDto2);
+        List<RecipeEntity> recipeEntityList = new ArrayList<>();
+        RecipeEntity recipeEntity1 = RecipeFactory.aRecipe().build();
+        RecipeEntity recipeEntity2 = RecipeFactory.aRecipe().id(2L).build();
+        recipeEntityList.add(recipeEntity1);
+        recipeEntityList.add(recipeEntity2);
+
+        when(recipesRepository.findAll()).thenReturn(recipeEntityList);
+        List<RecipeDto> returnedRecipeDtoList = recipesService.getAllRecipes();
+
+        assertEquals(recipeDtoList.getFirst().getId(), returnedRecipeDtoList.getFirst().getId());
+        assertEquals(recipeDtoList.getFirst().getRecipeName(), returnedRecipeDtoList.getFirst().getRecipeName());
+        assertEquals(recipeDtoList.getFirst().getIngredientList().size(), returnedRecipeDtoList.getFirst().getIngredientList().size());
+        assertEquals(recipeDtoList.getLast().getId(), returnedRecipeDtoList.getLast().getId());
+        assertEquals(recipeDtoList.getLast().getRecipeName(), returnedRecipeDtoList.getLast().getRecipeName());
+        assertEquals(recipeDtoList.getLast().getIngredientList().size(), returnedRecipeDtoList.getLast().getIngredientList().size());
+        verify(recipesRepository).findAll();
+        verifyNoMoreInteractions(recipesRepository);
+
+    }
+
+    @Test
+    void givenAnEmptyRepository_whenGettingAllTheRecipes_thenAnEmptyListShouldBeReturned() {
+        List<RecipeEntity> emptyList = new ArrayList<>();
+
+        when(recipesRepository.findAll()).thenReturn(emptyList);
+        List<RecipeDto> returnedRecipeDtoList = recipesService.getAllRecipes();
+        assertTrue(returnedRecipeDtoList.isEmpty());
+
+        verify(recipesRepository).findAll();
+        verifyNoMoreInteractions(recipesRepository);
+    }
+
+    @Test
+    void givenAValidId_whenDeletingARecipe_thenA204ShouldBeThrown() {
+        ResponseEntity<Void> expectedResponseEntity = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        long recipeId = 1L;
+        when(recipesRepository.existsById(recipeId)).thenReturn(true);
+        doNothing().when(recipesRepository).deleteById(recipeId);
+
+        ResponseEntity<Void> thrownResponseEntity = recipesService.deleteRecipeById(recipeId);
+
+        assertEquals(thrownResponseEntity, expectedResponseEntity);
+        verify(recipesRepository).existsById(recipeId);
+        verify(recipesRepository).deleteById(recipeId);
+        verifyNoMoreInteractions(recipesRepository);
+    }
+
+    @Test
+    void givenANonexistentId_whenDeletingARecipe_thenA404ShouldBeThrown() {
+        ResponseEntity<Void> expectedResponseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        long recipeId = 1L;
+        when(recipesRepository.existsById(recipeId)).thenReturn(false);
+
+        ResponseEntity<Void> thrownResponseEntity = recipesService.deleteRecipeById(recipeId);
+
+        assertEquals(thrownResponseEntity, expectedResponseEntity);
+        verify(recipesRepository).existsById(recipeId);
+        verifyNoMoreInteractions(recipesRepository);
+
+    }
+
+    @Test
+    void givenAValidIdAndAValidRecipeDto_whenEditingARecipe_thenTheEditedRecipeShouldBeReturned() {
+        RecipeDto recipeDtoToEdit = RecipeFactory.aRecipeDto().build();
+        RecipeEntity recipeEntity = RecipeFactory.aRecipe().recipeName("Lasagne").build();
+        RecipeDto expectedRecipeDto = RecipeFactory.aRecipeDto().recipeName("Lasagne").build();
+
+        when(recipesRepository.existsById(recipeDtoToEdit.getId())).thenReturn(true);
+        when(recipesRepository.save(any(RecipeEntity.class))).thenReturn(recipeEntity);
+
+        RecipeDto returnedDto = recipesService.editRecipe(recipeDtoToEdit.getId(), expectedRecipeDto);
+        assertEquals(returnedDto.getRecipeName(), expectedRecipeDto.getRecipeName());
+        verify(recipesRepository).existsById(recipeDtoToEdit.getId());
+        verify(recipesRepository).save(any(RecipeEntity.class));
+        verifyNoMoreInteractions(recipesRepository);
+    }
+
+    @Test
+    void givenANonexistentIdAndAValidRecipeDto_whenEditingARecipe_thenA404ShouldBeThrown() {
+        RecipeDto recipeDtoToEdit = RecipeFactory.aRecipeDto().build();
+        ResponseStatusException expectedException = new ResponseStatusException(HttpStatus.NOT_FOUND, "Sorry, the recipe with id 1000 is not in the repository");
+
+        when(recipesRepository.existsById(1000L)).thenReturn(false);
+        ResponseStatusException thrownException = assertThrows(ResponseStatusException.class, () -> recipesService.editRecipe(1000L, recipeDtoToEdit));
+
+        assertEquals(thrownException.getStatusCode(), expectedException.getStatusCode());
+        assertEquals(thrownException.getMessage(), expectedException.getMessage());
+        verify(recipesRepository).existsById(1000L);
+        verifyNoMoreInteractions(recipesRepository);
+    }
+
 
 }

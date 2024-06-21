@@ -57,7 +57,7 @@ public class RecipesService {
                 .collect(Collectors.toList());
     }
 
-    public ResponseEntity<Void> deleteRecipeById(Long recipeId) {
+    public ResponseEntity<Void> deleteRecipeById(long recipeId) {
         if (recipesRepository.existsById(recipeId)) {
             recipesRepository.deleteById(recipeId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -67,7 +67,7 @@ public class RecipesService {
 
     public RecipeDto editRecipe(Long recipeId, RecipeDto recipe) {
         if (!recipesRepository.existsById(recipeId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sorry, the recipe with id 1000 is not in the repository");
         }
         List<IngredientEntity> ingredientEntityList= recipe.getIngredientList()
                 .stream()
