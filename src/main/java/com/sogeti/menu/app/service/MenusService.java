@@ -9,6 +9,7 @@ import com.sogeti.menu.app.rest.dtos.MenuDto;
 import com.sogeti.menu.app.rest.dtos.RecipeDto;
 import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -46,5 +47,13 @@ public class MenusService {
                 .stream()
                 .map(MenuMapper::fromEntityToDto)
                 .collect(Collectors.toList());
+    }
+
+    public ResponseEntity<Void> deleteMenuById(long id) {
+        if (menusRepository.existsById(id)) {
+            menusRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

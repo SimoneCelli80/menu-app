@@ -159,6 +159,12 @@ public class MenusControllerTest {
         verifyNoMoreInteractions(menusService);
     }
 
+    @Test
+    void givenAValidId_whenDeletingAMenu_thenA204ShouldBeReturned() throws Exception {
+        
+        when(menusService.deleteMenuById())
+
+    }
 
 
 

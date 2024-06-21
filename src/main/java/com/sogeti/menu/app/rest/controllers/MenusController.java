@@ -42,4 +42,10 @@ public class MenusController {
         List<MenuDto> menuDtoList = menuService.getAllMenus();
         return new ResponseEntity<>(menuDtoList.stream().map(MenuMapper::fromDtoToResponse).collect(Collectors.toList()), HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{id}")
+    ResponseEntity<Void> deleteMenuById(@PathVariable long id) {
+        return menuService.deleteMenuById(id);
+
+    }
 }
