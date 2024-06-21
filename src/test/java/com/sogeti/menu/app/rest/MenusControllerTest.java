@@ -14,13 +14,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -159,12 +159,31 @@ public class MenusControllerTest {
         verifyNoMoreInteractions(menusService);
     }
 
-//    @Test
-//    void givenAValidId_whenDeletingAMenu_thenA204ShouldBeReturned() throws Exception {
-//
-//        when(menusService.deleteMenuById())
-//
-//    }
+    @Test
+    void givenAValidId_whenDeletingAMenu_thenA204ShouldBeReturned() throws Exception {
+        long menuId = 1L;
+        when(menusService.deleteMenuById(menuId)).thenReturn(new ResponseEntity<>(HttpStatus.NO_CONTENT));
+
+        mockMvc.perform(delete("/api/menus/delete/" + menuId))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        verify(menusService, times(1)).deleteMenuById(menuId);
+        verifyNoMoreInteractions(menusService);
+    }
+
+    @Test
+    void givenANonexistentId_whenDeletingAMenu_thenA404ShouldBeReturned() throws Exception {
+        long nonexistentId = 1L;
+        when(menusService.deleteMenuById(nonexistentId)).thenReturn(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+        mockMvc.perform(delete("/api/menus/delete/" + nonexistentId))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+        verify(menusService, times(1)).deleteMenuById(nonexistentId);
+        verifyNoMoreInteractions(menusService);
+    }
+
+
 
 
 
