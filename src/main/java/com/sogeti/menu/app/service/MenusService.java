@@ -35,16 +35,16 @@ public class MenusService {
         return MenuMapper.fromEntityToDto(menusRepository.save(new MenuEntity(recipeList)));
     }
 
+    public MenuDto getMenuById(long menuId) {
+        MenuEntity menuEntity = menusRepository.findById(menuId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Sorry, the menu with id %d is not in the repository", menuId)));
+        return MenuMapper.fromEntityToDto(menuEntity);
+    }
+
     public List<MenuDto> getAllMenus() {
         return menusRepository.findAll()
                 .stream()
                 .map(MenuMapper::fromEntityToDto)
                 .collect(Collectors.toList());
-    }
-
-    public MenuDto getMenuById(long menuId) {
-        MenuEntity menuEntity = menusRepository.findById(menuId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Sorry, the menu with id %d is not in the repository", menuId)));
-        return MenuMapper.fromEntityToDto(menuEntity);
     }
 }
