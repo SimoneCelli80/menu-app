@@ -25,7 +25,9 @@ public class MenusController {
 
     @PostMapping("/add")
     ResponseEntity<MenuResponse> createMenu(@RequestBody RecipeIdsRequest recipeIdsRequest) {
-        MenuDto menuDto = menuService.createMenu(recipeIdsRequest.recipeIdList());
+        List<Long> recipeIdList = recipeIdsRequest.recipeIdList();
+        MenuDto menuDto = menuService.createMenu(recipeIdList);
+        System.out.println(menuDto.getMenuDate() + "here");
         return new ResponseEntity<>(MenuMapper.fromDtoToResponse(menuDto), HttpStatus.CREATED);
     }
 

@@ -7,6 +7,8 @@ import com.sogeti.menu.app.rest.dtos.IngredientDto;
 import com.sogeti.menu.app.rest.dtos.RecipeDto;
 import com.sogeti.menu.app.rest.requests.IngredientRequest;
 import com.sogeti.menu.app.rest.requests.RecipeRequest;
+import com.sogeti.menu.app.rest.responses.IngredientResponse;
+import com.sogeti.menu.app.rest.responses.RecipeResponse;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -45,6 +47,16 @@ public class RecipeFactory {
         return RecipeRequest.builder()
                 .recipeName("Pasta with tomato sauce")
                 .ingredientList(ingredientRequestList);
+    }
+
+    public static RecipeResponse.RecipeResponseBuilder aRecipeResponse() {
+        List<IngredientResponse> ingredientResponseList = new ArrayList<>();
+        ingredientResponseList.add(IngredientResponse.builder().name("Pasta").quantity(500).unit(UnitsOfMeasureEnum.GR).build());
+        ingredientResponseList.add(IngredientResponse.builder().name("Tomato sauce").quantity(1).unit(UnitsOfMeasureEnum.L).build());
+
+        return RecipeResponse.builder()
+                .recipeName("Pasta with tomato sauce")
+                .ingredientList(ingredientResponseList);
     }
 
 }
