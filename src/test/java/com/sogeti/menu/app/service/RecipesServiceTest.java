@@ -1,7 +1,6 @@
 package com.sogeti.menu.app.service;
 
 import com.sogeti.menu.app.factories.RecipeFactory;
-import com.sogeti.menu.app.mapper.RecipeMapper;
 import com.sogeti.menu.app.persistence.entities.RecipeEntity;
 import com.sogeti.menu.app.persistence.repositories.RecipesRepository;
 import com.sogeti.menu.app.rest.dtos.RecipeDto;

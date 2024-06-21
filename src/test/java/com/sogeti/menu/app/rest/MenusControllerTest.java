@@ -7,22 +7,17 @@ import com.sogeti.menu.app.rest.dtos.MenuDto;
 import com.sogeti.menu.app.rest.requests.RecipeIdsRequest;
 import com.sogeti.menu.app.service.MenusService;
 import com.sogeti.menu.app.service.RecipesService;
-import org.jboss.jandex.JandexAntTask;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.hamcrest.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -37,8 +32,6 @@ public class MenusControllerTest {
     MockMvc mockMvc;
     @MockBean
     MenusService menusService;
-    @Mock
-    RecipesService recipesService;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
