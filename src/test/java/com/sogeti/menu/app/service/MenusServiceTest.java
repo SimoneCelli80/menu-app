@@ -18,9 +18,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -109,6 +109,35 @@ public class MenusServiceTest {
         verifyNoMoreInteractions(menusRepository);
     }
 
-    
+    @Test
+    void givenANotEmptyRepository_whenGettingAllMenus_thenAListOfMenuDtosShouldBeReturned() {
+        List<MenuDto> expectedMenuDtoList = new ArrayList<>();
+        MenuDto menuDto1 = MenuFactory.aMenuDto().build();
+        MenuDto menuDto2 = MenuFactory.aMenuDto().id(2L).build();
+        expectedMenuDtoList.add(menuDto1);
+        expectedMenuDtoList.add(menuDto2);
+        List<MenuEntity> menuEntityList = expectedMenuDtoList.stream().map(MenuMapper::fromDtoToEntity).collect(Collectors.toList());
+
+        when(menusRepository.findAll()).thenReturn(menuEntityList);
+        List<MenuDto> returnedMenuDtoList = menusService.getAllMenus();
+
+        assertEquals(returnedMenuDtoList.getFirst().getId(), expectedMenuDtoList.getFirst().getId());
+        assertEquals(returnedMenuDtoList.getFirst().getMenuDate(), expectedMenuDtoList.getFirst().getMenuDate());
+        assertEquals(returnedMenuDtoList.getFirst().getRecipeDtoList().size(), expectedMenuDtoList.getFirst().getRecipeDtoList().size());
+
+        verify(menusRepository).findAll();
+        verifyNoMoreInteractions(menusRepository);
+    }
+
+    @Test
+    void givenAnEmptyRepository_whenGettingAllMenus_thenAnEmptyListShouldBeReturned() {
+        List<MenuEntity> emptyList = new ArrayList<>();
+
+        when(menusRepository.findAll()).thenReturn(emptyList);
+        List<MenuDto> returnedMenuDtoList = menusService.getAllMenus();
+        assertTrue(returnedMenuDtoList.isEmpty());
+        verify(menusRepository).findAll();
+        verifyNoMoreInteractions(menusRepository);
+    }
 
 }
