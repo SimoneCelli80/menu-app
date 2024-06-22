@@ -1,0 +1,11 @@
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\mapper\RecipeMapper.java
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\MenuAppApplication.java
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\persistence\entities\Ingredient.java
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\persistence\entities\RecipeEntity.java
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\persistence\enums\UnitsOfMeasureEnum.java
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\persistence\repositories\RecipesRepository.java
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\rest\controllers\RecipesController.java
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\rest\dtos\RecipeDto.java
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\rest\requests\RecipeRequest.java
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\rest\responses\RecipeResponse.java
+C:\Users\scelli\IdeaProjects\Menu-app\src\main\java\com\sogeti\menu\app\service\RecipesService.java

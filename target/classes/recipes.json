@@ -1,0 +1,72 @@
+[
+  {
+    "recipeName" : "Pasta alla carbonara",
+    "ingredientList" : [
+      {
+        "name" : "eggs",
+        "quantity" : 4,
+        "unit" : "PCS"
+      },
+      {
+        "name" : "bacon",
+        "quantity" : 200,
+        "unit" : "GR"
+      },
+      {
+        "name" : "spaghetti",
+        "quantity" : 500,
+        "unit" : "GR"
+      }
+    ]
+  },
+  {
+    "recipeName" : "Trofie al pesto alla genovese",
+    "ingredientList" : [
+      {
+        "name" : "trofie",
+        "quantity" : 500,
+        "unit" : "GR"
+      },
+      {
+        "name" : "pine nuts",
+        "quantity" : 50,
+        "unit" : "GR"
+      },
+      {
+        "name" : "basil",
+        "quantity" : 100,
+        "unit" : "GR"
+      },
+      {
+        "name" : "evo oil",
+        "quantity" : 100,
+        "unit" : "ML"
+      },
+      {
+        "name" : "garlick",
+        "quantity" : 1,
+        "unit" : "PCS"
+      },
+      {
+        "name" : "pecorino",
+        "quantity" : 50,
+        "unit" : "GR"
+      },
+      {
+        "name" : "parmigiano",
+        "quantity" : 70,
+        "unit" : "GR"
+      },
+      {
+        "name" : "potatoes",
+        "quantity" : 300,
+        "unit" : "GR"
+      },
+      {
+        "name" : "green beans",
+        "quantity" : 100,
+        "unit" : "GR"
+      }
+    ]
+  }
+]

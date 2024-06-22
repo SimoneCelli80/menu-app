@@ -1,0 +1,15 @@
+com\sogeti\menu\app\rest\responses\RecipeResponse.class
+com\sogeti\menu\app\rest\responses\RecipeResponse$RecipeResponseBuilder.class
+com\sogeti\menu\app\persistence\entities\RecipeEntity$RecipeEntityBuilder.class
+com\sogeti\menu\app\persistence\entities\RecipeEntity.class
+com\sogeti\menu\app\rest\dtos\RecipeDto.class
+com\sogeti\menu\app\rest\controllers\RecipesController.class
+com\sogeti\menu\app\persistence\repositories\RecipesRepository.class
+com\sogeti\menu\app\persistence\entities\Ingredient.class
+com\sogeti\menu\app\persistence\enums\UnitsOfMeasureEnum.class
+com\sogeti\menu\app\persistence\entities\Ingredient$IngredientBuilder.class
+com\sogeti\menu\app\mapper\RecipeMapper.class
+com\sogeti\menu\app\service\RecipesService.class
+com\sogeti\menu\app\rest\dtos\RecipeDto$RecipeDtoBuilder.class
+com\sogeti\menu\app\MenuAppApplication.class
+com\sogeti\menu\app\rest\requests\RecipeRequest.class
