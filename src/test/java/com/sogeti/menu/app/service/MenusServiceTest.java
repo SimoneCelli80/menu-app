@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -137,6 +138,34 @@ public class MenusServiceTest {
         List<MenuDto> returnedMenuDtoList = menusService.getAllMenus();
         assertTrue(returnedMenuDtoList.isEmpty());
         verify(menusRepository).findAll();
+        verifyNoMoreInteractions(menusRepository);
+    }
+
+    @Test
+    void givenAValidId_whenDeletingAMenu_thenA204ShouldBeReturned() {
+        long menuId = 1L;
+        ResponseEntity<Void> expectedResponse = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        when(menusRepository.existsById(menuId)).thenReturn(true);
+        doNothing().when(menusRepository).deleteById(menuId);
+
+        ResponseEntity<Void> thrownResponse = menusService.deleteMenuById(menuId);
+
+        assertEquals(thrownResponse, expectedResponse);
+        verify(menusRepository).existsById(menuId);
+        verify(menusRepository).deleteById(menuId);
+        verifyNoMoreInteractions(menusRepository);
+    }
+
+    @Test
+    void givenANonexistentId_whenDeletingAMenu_thenA404ShouldBeReturned() {
+        long menuId = 1L;
+        ResponseEntity<Void> expectedResponse = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        when(menusRepository.existsById(menuId)).thenReturn(false);
+
+        ResponseEntity<Void> thrownResponse = menusService.deleteMenuById(menuId);
+
+        assertEquals(thrownResponse, expectedResponse);
+        verify(menusRepository).existsById(menuId);
         verifyNoMoreInteractions(menusRepository);
     }
 
