@@ -8,10 +8,12 @@ import com.sogeti.menu.app.service.RecipesService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @RestController
 @RequestMapping("api/recipes")
 public class RecipesController {
@@ -23,7 +25,7 @@ public class RecipesController {
     }
 
     @PostMapping("/add")
-    ResponseEntity<RecipeResponse> createRecipe(@RequestBody @Valid RecipeRequest recipeRequest) {
+    ResponseEntity<RecipeResponse> createRecipe(@Valid @RequestBody RecipeRequest recipeRequest) {
         RecipeDto recipeDto = recipeService.createRecipe(RecipeMapper.fromRequestToDto(recipeRequest));
         return new ResponseEntity<>(RecipeMapper.fromDtoToResponse(recipeDto), HttpStatus.CREATED);
     }

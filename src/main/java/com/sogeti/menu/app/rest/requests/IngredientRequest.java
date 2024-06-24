@@ -7,6 +7,7 @@ import lombok.Builder;
 
 @Builder
 public record IngredientRequest(
+        @NotNull(message = "Please enter the name of the ingredient.")
         @NotBlank(message = "Please enter the name of the ingredient.")
         String name,
         @NotNull(message = "Please enter the quantity of the ingredient.")
