@@ -12,7 +12,7 @@ public record RecipeRequest(
         @NotNull(message = "Please enter the name of the recipe.")
         @NotBlank(message = "Please enter the name of the recipe.")
         String recipeName,
-        @NotNull(message = "Please enter the name of the recipe.")
+        @NotNull(message = "Please enter the name of the ingredient.")
         @NotEmpty(message = "Please enter at least one ingredient for the recipe.")
         List<IngredientRequest> ingredientList
 ) {
