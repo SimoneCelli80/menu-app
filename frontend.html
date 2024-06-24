@@ -1,0 +1,10 @@
+<html>
+    <body>
+        <script>
+            const recipes = fetch("http://localhost:8080/api/recipes").then(
+                async response => console.log(await response.json())
+            );
+
+        </script>
+    </body>
+</html>
