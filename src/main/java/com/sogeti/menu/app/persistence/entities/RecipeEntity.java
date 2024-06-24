@@ -1,6 +1,9 @@
 package com.sogeti.menu.app.persistence.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -16,8 +19,12 @@ public class RecipeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     long id;
+    @NotNull(message = "Please enter the name of the recipe.")
+    @NotBlank(message = "Please enter the name of the recipe.")
     private String recipeName;
 
+    @NotNull(message = "Please enter the name of the ingredient.")
+    @NotEmpty(message = "Please enter at least one ingredient for the recipe.")
     @ElementCollection
     @CollectionTable(name = "ingredient", joinColumns = @JoinColumn(name = "recipe_id"))
     private List<IngredientEntity> ingredientList;
