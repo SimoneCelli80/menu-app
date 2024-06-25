@@ -7,7 +7,6 @@ import com.sogeti.menu.app.rest.dtos.RecipeDto;
 import com.sogeti.menu.app.rest.requests.RecipeRequest;
 import com.sogeti.menu.app.rest.responses.IngredientResponse;
 import com.sogeti.menu.app.rest.responses.RecipeResponse;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

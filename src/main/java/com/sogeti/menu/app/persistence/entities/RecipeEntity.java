@@ -18,7 +18,7 @@ public class RecipeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    long id;
+    private long id;
     @NotNull(message = "Please enter the name of the recipe.")
     @NotBlank(message = "Please enter the name of the recipe.")
     private String recipeName;

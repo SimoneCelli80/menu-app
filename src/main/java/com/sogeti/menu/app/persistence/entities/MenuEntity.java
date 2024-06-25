@@ -20,15 +20,15 @@ public class MenuEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    long id;
-    String menuDate;
+    private long id;
+    private String menuDate;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Menu_Recipe",
             joinColumns = @JoinColumn(name = "menu_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
-    List<RecipeEntity> recipeList;
+    private List<RecipeEntity> recipeList;
 
     public MenuEntity(List<RecipeEntity> recipeList) {
         this.menuDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy 'at' HH:mm"));
