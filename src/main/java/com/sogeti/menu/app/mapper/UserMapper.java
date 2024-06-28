@@ -2,19 +2,19 @@ package com.sogeti.menu.app.mapper;
 
 import com.sogeti.menu.app.persistence.entities.UserEntity;
 import com.sogeti.menu.app.rest.dtos.UserDto;
-import com.sogeti.menu.app.rest.requests.UserRequest;
+import com.sogeti.menu.app.rest.requests.RegistrationRequest;
 import com.sogeti.menu.app.rest.responses.UserResponse;
 
 public class UserMapper {
 
-    public static UserDto fromRequestToDto(UserRequest userRequest) {
-        if(userRequest == null) {
+    public static UserDto fromRequestToDto(RegistrationRequest registrationRequest) {
+        if(registrationRequest == null) {
             return null;
         }
         return UserDto.builder()
-                .fullName(userRequest.fullName())
-                .email(userRequest.email())
-                .password(userRequest.password())
+                .fullName(registrationRequest.fullName())
+                .email(registrationRequest.email())
+                .password(registrationRequest.password())
                 .build();
     }
 
