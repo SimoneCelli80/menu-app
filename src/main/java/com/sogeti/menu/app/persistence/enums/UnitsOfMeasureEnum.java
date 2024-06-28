@@ -1,6 +1,7 @@
 package com.sogeti.menu.app.persistence.enums;
 
 public enum UnitsOfMeasureEnum {
+
     KG,
     GR,
     L,
@@ -10,6 +11,6 @@ public enum UnitsOfMeasureEnum {
     PCS,
     TT,
     GLASS,
-    CUP
+    CUPS
 
 }
