@@ -6,12 +6,14 @@ import com.sogeti.menu.app.persistence.entities.UserEntity;
 import com.sogeti.menu.app.persistence.repositories.UsersRepository;
 import com.sogeti.menu.app.rest.dtos.LoginDto;
 import com.sogeti.menu.app.rest.dtos.UserDto;
-import com.sogeti.menu.app.rest.requests.UserRequest;
 import com.sogeti.menu.app.rest.responses.LoginResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthService {
     private final AuthenticationManager authenticationManager;
@@ -37,7 +39,19 @@ public class AuthService {
         }
     }
 
-    public LoginResponse loginUser(LoginDto loginDto) {
-        //write code here
+    public String loginUser(LoginDto loginDto) {
+        UserEntity userEntity = usersRepository.findByEmail(loginDto.getEmail())
+                .filter(user -> passwordEncoder.matches(loginDto.getPassword(), user.getPassword()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Please, enter a valid email password combination."));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+        String jwt =jwtUtil.generateToken(userEntity, generateExtraClaims(userEntity));
+        return jwt; //the controller will return LoginResponse(jwt)
+    }
+
+    private Map<String, Object> generateExtraClaims(UserEntity userEntity) {
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("name", userEntity.getFullName());
+        extraClaims.put("email", userEntity.getEmail());
+        return extraClaims;
     }
 }
