@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Builder
+
 public record UserRequest(
 
         @NotNull(message = "Please enter your full name.")
@@ -21,5 +22,15 @@ public record UserRequest(
         @NotBlank(message = "Please enter a valid password.")
         String password
 
+
+
 ) {
+
+        public String getEmail() {
+                return email;
+        }
+
+        public String getPassword() {
+                return password;
+        }
 }
