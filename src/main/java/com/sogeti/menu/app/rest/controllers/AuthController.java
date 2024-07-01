@@ -32,7 +32,7 @@ public class AuthController {
         return UserMapper.fromDtoToResponse(userDto);
     }
 
-    @PostMapping
+    @PostMapping("/login")
     public LoginResponse loginUser(@Validated @RequestBody LoginRequest loginRequest) {
         LoginDto loginDto = LoginMapper.fromRequestToDto(loginRequest);
         String jwt = authService.loginUser(loginDto);

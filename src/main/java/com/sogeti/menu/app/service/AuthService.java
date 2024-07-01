@@ -11,10 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
@@ -45,7 +47,7 @@ public class AuthService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Please, enter a valid email password combination."));
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         String jwt =jwtUtil.generateToken(userEntity, generateExtraClaims(userEntity));
-        return jwt; //the controller will return LoginResponse(jwt)
+        return jwt;
     }
 
     private Map<String, Object> generateExtraClaims(UserEntity userEntity) {
