@@ -29,7 +29,7 @@ public class AuthService {
     }
 
     public UserDto registerUser(UserDto userDto) {
-        if (usersRepository.findByEmail(userDto.getEmail()).isPresent()) {
+        if (usersRepository.existsByEmail(userDto.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This email is already in use, please choose a different one.");
         } else {
             String hashPassword = passwordEncoder.encode(userDto.getPassword());
