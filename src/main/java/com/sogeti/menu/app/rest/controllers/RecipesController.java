@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +27,8 @@ public class RecipesController {
     }
 
     @PostMapping("/add")
-    ResponseEntity<RecipeResponse> createRecipe(@Valid @RequestBody RecipeRequest recipeRequest) {
-        RecipeDto recipeDto = recipeService.createRecipe(RecipeMapper.fromRequestToDto(recipeRequest));
+    ResponseEntity<RecipeResponse> createRecipe(Principal principal,  @Valid @RequestBody RecipeRequest recipeRequest) {
+        RecipeDto recipeDto = recipeService.createRecipe(principal, RecipeMapper.fromRequestToDto(recipeRequest));
         return new ResponseEntity<>(RecipeMapper.fromDtoToResponse(recipeDto), HttpStatus.CREATED);
     }
 

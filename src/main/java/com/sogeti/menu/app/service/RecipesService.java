@@ -4,13 +4,16 @@ import com.sogeti.menu.app.mapper.IngredientMapper;
 import com.sogeti.menu.app.mapper.RecipeMapper;
 import com.sogeti.menu.app.persistence.entities.IngredientEntity;
 import com.sogeti.menu.app.persistence.entities.RecipeEntity;
+import com.sogeti.menu.app.persistence.entities.UserEntity;
 import com.sogeti.menu.app.persistence.repositories.RecipesRepository;
+import com.sogeti.menu.app.persistence.repositories.UsersRepository;
 import com.sogeti.menu.app.rest.dtos.RecipeDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +23,17 @@ import java.util.stream.Collectors;
 public class RecipesService {
 
     private final RecipesRepository recipesRepository;
+    private final UsersRepository usersRepository;
 
-    public RecipesService(RecipesRepository recipesRepository) {
+    public RecipesService(RecipesRepository recipesRepository, UsersRepository usersRepository) {
         this.recipesRepository = recipesRepository;
+        this.usersRepository = usersRepository;
     }
-    public RecipeDto createRecipe(RecipeDto recipeDto) {
+    public RecipeDto createRecipe(Principal principal, RecipeDto recipeDto) {
+        //Optional<UserEntity> user = usersRepository.findByEmail(principal != null ? principal.getName() : "not found email");
+        if (principal == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please login.");
+        }
         if (recipesRepository.existsByRecipeName(recipeDto.getRecipeName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This recipe already exists, please choose a different recipe or change its name.");
         }
